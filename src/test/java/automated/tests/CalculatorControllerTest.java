@@ -18,7 +18,6 @@ import static org.mockito.Mockito.when;
 
 public class CalculatorControllerTest {
 
-
     @InjectMocks
     private CalculatorController calculatorController;
 
@@ -41,6 +40,15 @@ public class CalculatorControllerTest {
     }
 
     @Test
+    public void testSumWhenExceptionThrown() {
+        List<Integer> numbers = Arrays.asList(1, 2, 3, 4, 5);
+        when(calculatorService.soma(numbers)).thenThrow(new IllegalArgumentException("Invalid input"));
+        ResponseEntity<Integer> response = calculatorController.sum(numbers);
+        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+        assertEquals(null, response.getBody());
+    }
+
+    @Test
     public void testAverage() {
         List<Integer> numbers = Arrays.asList(10, 20, 30, 40, 50);
         double expectedAverage = 30.0;
@@ -48,6 +56,15 @@ public class CalculatorControllerTest {
         ResponseEntity<Double> response = calculatorController.average(numbers);
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertEquals(expectedAverage, response.getBody());
+    }
+
+    @Test
+    public void testAverageWhenExceptionThrown() {
+        List<Integer> numbers = Arrays.asList(10, 20, 30, 40, 50);
+        when(calculatorService.media(numbers)).thenThrow(new IllegalArgumentException("Invalid input"));
+        ResponseEntity<Double> response = calculatorController.average(numbers);
+        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+        assertEquals(null, response.getBody());
     }
 
     @Test
@@ -62,5 +79,16 @@ public class CalculatorControllerTest {
         ResponseEntity<String> response = calculatorController.maxmin(numbers);
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertEquals("Maior: " + expectedMax + ", Menor: " + expectedMin, response.getBody());
+    }
+
+    @Test
+    public void testMaxMinWhenExceptionThrown() {
+        List<Integer> numbers = Arrays.asList(7, 2, 8, 3, 9);
+        when(calculatorService.encontrarMaior(numbers)).thenThrow(new IllegalArgumentException("Invalid input"));
+        when(calculatorService.encontrarMenor(numbers)).thenThrow(new IllegalArgumentException("Invalid input"));
+
+        ResponseEntity<String> response = calculatorController.maxmin(numbers);
+        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+        assertEquals(null, response.getBody());
     }
 }

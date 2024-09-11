@@ -1,7 +1,7 @@
 
 ## Principais Diferenças
 
-- **QA (Quality Assurance)**: 
+- **QA**: 
   Garante a qualidade do processo de desenvolvimento de software assegurando que todos os procedimentos e padrões sejam seguidos para evitar problemas no futuro.
 
 - **Analista de Testes**: 
